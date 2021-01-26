@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		1AD6D84C25BFF70F007D1D70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D84A25BFF70F007D1D70 /* Main.storyboard */; };
 		1AD6D84E25BFF710007D1D70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D84D25BFF710007D1D70 /* Assets.xcassets */; };
 		1AD6D85125BFF710007D1D70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D84F25BFF710007D1D70 /* LaunchScreen.storyboard */; };
+		1AD6D86125BFF7FB007D1D70 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 1AD6D86025BFF7FB007D1D70 /* FloatingPanel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AD6D86125BFF7FB007D1D70 /* FloatingPanel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = FlightScope;
+			packageProductDependencies = (
+				1AD6D86025BFF7FB007D1D70 /* FloatingPanel */,
+			);
 			productName = FlightScope;
 			productReference = 1AD6D84125BFF70F007D1D70 /* FlightScope.app */;
 			productType = "com.apple.product-type.application";
@@ -110,6 +115,9 @@
 				Base,
 			);
 			mainGroup = 1AD6D83825BFF70F007D1D70;
+			packageReferences = (
+				1AD6D85F25BFF7FB007D1D70 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
+			);
 			productRefGroup = 1AD6D84225BFF70F007D1D70 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -341,6 +349,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1AD6D85F25BFF7FB007D1D70 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SCENEE/FloatingPanel";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1AD6D86025BFF7FB007D1D70 /* FloatingPanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1AD6D85F25BFF7FB007D1D70 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			productName = FloatingPanel;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1AD6D83925BFF70F007D1D70 /* Project object */;
 }
