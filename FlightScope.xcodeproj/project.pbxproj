@@ -13,10 +13,13 @@
 		1AD6D84C25BFF70F007D1D70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D84A25BFF70F007D1D70 /* Main.storyboard */; };
 		1AD6D84E25BFF710007D1D70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D84D25BFF710007D1D70 /* Assets.xcassets */; };
 		1AD6D85125BFF710007D1D70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D84F25BFF710007D1D70 /* LaunchScreen.storyboard */; };
-		1AD6D86125BFF7FB007D1D70 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 1AD6D86025BFF7FB007D1D70 /* FloatingPanel */; };
+		1AD6D86125BFF7FB007D1D70 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 1AD6D86025BFF7FB007D1D70 /* SwiftPackageProductDependency */; };
+		1AD6D86425BFF882007D1D70 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D86325BFF882007D1D70 /* GoogleService-Info.plist */; };
+		BC0D2250CA061E6A51CD7380 /* Pods_FlightScope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A02D4D290DF28B53E0C8F37 /* Pods_FlightScope.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		017769C104C20C96643072DC /* Pods-FlightScope.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightScope.release.xcconfig"; path = "Target Support Files/Pods-FlightScope/Pods-FlightScope.release.xcconfig"; sourceTree = "<group>"; };
 		1AD6D84125BFF70F007D1D70 /* FlightScope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightScope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD6D84425BFF70F007D1D70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AD6D84625BFF70F007D1D70 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -25,6 +28,9 @@
 		1AD6D84D25BFF710007D1D70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AD6D85025BFF710007D1D70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1AD6D85225BFF710007D1D70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AD6D86325BFF882007D1D70 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		500F960729CA9F1C1AF008D0 /* Pods-FlightScope.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightScope.debug.xcconfig"; path = "Target Support Files/Pods-FlightScope/Pods-FlightScope.debug.xcconfig"; sourceTree = "<group>"; };
+		7A02D4D290DF28B53E0C8F37 /* Pods_FlightScope.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlightScope.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,18 +38,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AD6D86125BFF7FB007D1D70 /* FloatingPanel in Frameworks */,
+				1AD6D86125BFF7FB007D1D70 /* BuildFile in Frameworks */,
+				BC0D2250CA061E6A51CD7380 /* Pods_FlightScope.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19E4E8317FED76E15019B55E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				500F960729CA9F1C1AF008D0 /* Pods-FlightScope.debug.xcconfig */,
+				017769C104C20C96643072DC /* Pods-FlightScope.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		1AD6D83825BFF70F007D1D70 = {
 			isa = PBXGroup;
 			children = (
 				1AD6D84325BFF70F007D1D70 /* FlightScope */,
 				1AD6D84225BFF70F007D1D70 /* Products */,
+				19E4E8317FED76E15019B55E /* Pods */,
+				4FA16586E1747B1D145E5029 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +77,7 @@
 		1AD6D84325BFF70F007D1D70 /* FlightScope */ = {
 			isa = PBXGroup;
 			children = (
+				1AD6D86325BFF882007D1D70 /* GoogleService-Info.plist */,
 				1AD6D84425BFF70F007D1D70 /* AppDelegate.swift */,
 				1AD6D84625BFF70F007D1D70 /* SceneDelegate.swift */,
 				1AD6D84825BFF70F007D1D70 /* ViewController.swift */,
@@ -69,6 +89,14 @@
 			path = FlightScope;
 			sourceTree = "<group>";
 		};
+		4FA16586E1747B1D145E5029 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A02D4D290DF28B53E0C8F37 /* Pods_FlightScope.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -76,9 +104,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1AD6D85525BFF710007D1D70 /* Build configuration list for PBXNativeTarget "FlightScope" */;
 			buildPhases = (
+				497D2B30AB55EB51A363C521 /* [CP] Check Pods Manifest.lock */,
 				1AD6D83D25BFF70F007D1D70 /* Sources */,
 				1AD6D83E25BFF70F007D1D70 /* Frameworks */,
 				1AD6D83F25BFF70F007D1D70 /* Resources */,
+				B0401C6AFEAB42DBB3B433CA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -86,7 +116,7 @@
 			);
 			name = FlightScope;
 			packageProductDependencies = (
-				1AD6D86025BFF7FB007D1D70 /* FloatingPanel */,
+				1AD6D86025BFF7FB007D1D70 /* SwiftPackageProductDependency */,
 			);
 			productName = FlightScope;
 			productReference = 1AD6D84125BFF70F007D1D70 /* FlightScope.app */;
@@ -116,7 +146,7 @@
 			);
 			mainGroup = 1AD6D83825BFF70F007D1D70;
 			packageReferences = (
-				1AD6D85F25BFF7FB007D1D70 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
+				1AD6D85F25BFF7FB007D1D70 /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 1AD6D84225BFF70F007D1D70 /* Products */;
 			projectDirPath = "";
@@ -133,12 +163,55 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AD6D85125BFF710007D1D70 /* LaunchScreen.storyboard in Resources */,
+				1AD6D86425BFF882007D1D70 /* GoogleService-Info.plist in Resources */,
 				1AD6D84E25BFF710007D1D70 /* Assets.xcassets in Resources */,
 				1AD6D84C25BFF70F007D1D70 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		497D2B30AB55EB51A363C521 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FlightScope-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B0401C6AFEAB42DBB3B433CA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FlightScope/Pods-FlightScope-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FlightScope/Pods-FlightScope-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FlightScope/Pods-FlightScope-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1AD6D83D25BFF70F007D1D70 /* Sources */ = {
@@ -291,6 +364,7 @@
 		};
 		1AD6D85625BFF710007D1D70 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 500F960729CA9F1C1AF008D0 /* Pods-FlightScope.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -310,6 +384,7 @@
 		};
 		1AD6D85725BFF710007D1D70 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 017769C104C20C96643072DC /* Pods-FlightScope.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -351,7 +426,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1AD6D85F25BFF7FB007D1D70 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
+		1AD6D85F25BFF7FB007D1D70 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SCENEE/FloatingPanel";
 			requirement = {
@@ -362,9 +437,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1AD6D86025BFF7FB007D1D70 /* FloatingPanel */ = {
+		1AD6D86025BFF7FB007D1D70 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1AD6D85F25BFF7FB007D1D70 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			package = 1AD6D85F25BFF7FB007D1D70 /* RemoteSwiftPackageReference */;
 			productName = FloatingPanel;
 		};
 /* End XCSwiftPackageProductDependency section */
