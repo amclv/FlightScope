@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>897724405914-bjsq7871bn6ju9dvfbku0teko8u9ii0p.apps.googleusercontent.com</string>
+	<string>897207250334-mf36ro289bjf3v4k7k5tg558k5dso31v.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.897724405914-bjsq7871bn6ju9dvfbku0teko8u9ii0p</string>
+	<string>com.googleusercontent.apps.897207250334-mf36ro289bjf3v4k7k5tg558k5dso31v</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBUYdckSctdM2fiQeIeB82wR9vSiGHWaM8</string>
+	<string>AIzaSyCy179pCTgeNwEV5KLZyRVtS2J2VTlC0io</string>
 	<key>GCM_SENDER_ID</key>
-	<string>897724405914</string>
+	<string>897207250334</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.aaroncleveland.FlightScope</string>
 	<key>PROJECT_ID</key>
-	<string>flight-scope</string>
+	<string>destination-74081</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flight-scope.appspot.com</string>
+	<string>destination-74081.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:897724405914:ios:faadbb703e1efca4fa2723</string>
-	<key>DATABASE_URL</key>
-	<string>https://flight-scope-default-rtdb.firebaseio.com</string>
+	<string>1:897207250334:ios:3300bdd0996136051a3a8f</string>
 </dict>
 </plist>
