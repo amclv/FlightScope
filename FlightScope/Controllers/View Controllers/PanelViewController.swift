@@ -32,7 +32,6 @@ class PanelViewController: UIViewController {
     
     let panelTitle: UILabel = {
         let label = UILabel()
-        label.text = "TEST THIS"
         label.textColor = .customColor(.black)
         label.textAlignment = .center
         return label

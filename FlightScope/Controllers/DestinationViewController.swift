@@ -90,16 +90,6 @@ class DestinationViewController: UIViewController {
         panel.surfaceView.appearance.cornerRadius = cellCornerRadius
     }
     
-    /// Returns nil if image data is not correct or some network error has happened
-    func getImageFromUrl(sourceUrl: String) -> UIImage? {
-        if let url = URL(string: sourceUrl) {
-            if let imageData = try? Data(contentsOf:url) {
-                return UIImage(data: imageData)
-            }
-        }
-        return nil
-    }
-    
     // MARK: - Actions -
 }
 
@@ -119,7 +109,6 @@ extension DestinationViewController {
                                     trailing: view.trailingAnchor,
                                     paddingTop: standardPadding,
                                     paddingBottom: standardSpacing + 50)
-        travelCollectionView.setDimensions(width: view.frame.width, height: view.frame.height - standardPadding)
     }
 }
 
@@ -133,21 +122,18 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCollectionViewCell.identifier, for: indexPath) as! DefaultCollectionViewCell
         let destination = firestoreController.destinationArray[indexPath.row]
         
-        //        guard let urlString = destination.photoLink,
-        //              let url = URL(string: urlString) else { return UICollectionViewCell() }
+        guard let urlString = destination.downloadLink,
+              let url = URL(string: urlString) else { return UICollectionViewCell() }
         
-        let imageURL = URL(string: destination.photoLink!)
-        let imagedData = try? Data(contentsOf: imageURL! as URL)
-        cell.locationImageView.image = UIImage(data: imagedData ?? UIImage(named: "placeholderImage"))
-        
-        cell.locationName.text = destination.locationName
-        cell.backgroundColor = .darkGray
+        cell.locationName.text = destination.locationCountry
+        cell.locationImageView.loadImageWithUrl(url)
         cell.layer.cornerRadius = cellCornerRadius
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
+        let panel = PanelViewController()
         
         //Briefly fade the cell on selection
         UIView.animate(withDuration: 0.5, animations: {
@@ -159,6 +145,8 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
                 cell?.alpha = 1
                 UIView.animate(withDuration: 0.25) {
                     self.panel.move(to: .full, animated: false)
+                    panel.panelTitle.text = self.firestoreController.destinationArray[indexPath.row].locationCity
+                    
                 }
             })
         }

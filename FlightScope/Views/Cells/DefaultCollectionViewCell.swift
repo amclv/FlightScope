@@ -13,14 +13,17 @@ class DefaultCollectionViewCell: UICollectionViewCell {
     
     let locationName: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16.0, weight: .semibold)
-        label.textColor = .label
+        label.font = .systemFont(ofSize: 30.0, weight: .semibold)
+        label.numberOfLines = 0
+        label.textColor = .customColor(.white)
         return label
     }()
     
-    let locationImageView: UIImageView = {
-        let imageView = UIImageView()
+    let locationImageView: ImageLoader = {
+        let imageView = ImageLoader()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -44,8 +47,10 @@ extension DefaultCollectionViewCell {
         locationImageView.addConstraintsToFillView(contentView)
         
         contentView.addSubview(locationName)
-        locationName.anchor(bottom: contentView.bottomAnchor,
-                            leading: contentView.leadingAnchor,
-                            trailing: contentView.trailingAnchor)
+        locationName.centerY(inView: contentView)
+        locationName.anchor(leading: contentView.leadingAnchor,
+                            trailing: contentView.trailingAnchor,
+                            paddingLeading: standardPadding,
+                            paddingTrailing: -standardPadding)
     }
 }

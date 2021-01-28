@@ -55,7 +55,6 @@ class HomeViewController: UIViewController {
         homeButton.backgroundColor = .customColor(.blue)
         homeButton.addTarget(self, action: #selector(homeButtonAction), for: .touchUpInside)
         homeButton.layer.cornerRadius = 10
-        homeButton.setDimensions(width: 280, height: 51)
     }
     
     func titleAttributedText() -> NSAttributedString {
@@ -110,5 +109,6 @@ extension HomeViewController {
                           paddingBottom: standardPadding,
                           paddingLeading: standardPadding,
                           paddingTrailing: -standardPadding)
+        homeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
