@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Destination
-struct Destination: Codable, Equatable {
+struct Destination: Codable {
     let undefined: String?
     let createdAt: String?
     let downloadLink: String?
@@ -57,7 +57,5 @@ struct Destination: Codable, Equatable {
         case color = "color"
     }
 }
-
-typealias Destinations = [Destination]
 
 

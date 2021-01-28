@@ -8,35 +8,42 @@
 import Foundation
 import UIKit
 
-extension UILabel {
-    /// Label Color String
-    /// - Parameters:
-    ///   - text: Text of string
-    ///   - coloredText: Text that you want to color
-    ///   - color: Color of the text
-    func colorString(text: String?, coloredText: String?, color: UIColor? = .red) {
-        
-        let attributedString = NSMutableAttributedString(string: text!)
-        let range = (text! as NSString).range(of: coloredText!)
-        attributedString.setAttributes([NSAttributedString.Key.foregroundColor: color!],
-                                       range: range)
-        self.attributedText = attributedString
+extension UIScreen {
+    static let screenWidth = UIScreen.main.bounds.size.width
+    static let screenHeight = UIScreen.main.bounds.size.height
+    static let screenSize = UIScreen.main.bounds.size
+}
+
+extension UIColor {
+    convenience init(r: Int, g: Int, b: Int, a: Int = 255) {
+        self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(a) / 255.0)
+    }
+    
+    convenience init(netHex:Int) {
+        self.init(r:(netHex >> 16) & 0xff, g:(netHex >> 8) & 0xff, b:netHex & 0xff)
     }
 }
 
+extension Decodable {
+    /// Initialize from JSON Dictionary. Return nil on failure
+    init?(dictionary value: [String:Any]) {
+        // Passing the dictionary to the JSONSerialization
+        // Converting dictionary to JSON
+        guard JSONSerialization.isValidJSONObject(value) else { return nil }
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: value, options: []) else { return nil }
+        
+        guard let newValue = try? JSONDecoder().decode(Self.self, from: jsonData) else { return nil }
+        self = newValue
+    }
+}
 
-extension String {
-    func attributedStringWithColor(_ strings: [String], color: UIColor, characterSpacing: UInt? = nil) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(string: self)
-        for string in strings {
-            let range = (self as NSString).range(of: string)
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+extension Encodable {
+    /// Returns a JSON dictionary, with choice of minimal information
+    func getDictionary() -> [String: Any]? {
+        let encoder = JSONEncoder()
+        
+        guard let data = try? encoder.encode(self) else { return nil }
+        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any]
         }
-
-        guard let characterSpacing = characterSpacing else {return attributedString}
-
-        attributedString.addAttribute(NSAttributedString.Key.kern, value: characterSpacing, range: NSRange(location: 0, length: attributedString.length))
-
-        return attributedString
     }
 }

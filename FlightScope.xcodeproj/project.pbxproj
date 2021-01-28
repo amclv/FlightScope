@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1A32289725C1C17900DC6F0F /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32289625C1C17900DC6F0F /* Globals.swift */; };
 		1A32289A25C1C9F600DC6F0F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32289925C1C9F600DC6F0F /* Extensions.swift */; };
+		1A32289D25C1DF6400DC6F0F /* PanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32289C25C1DF6400DC6F0F /* PanelViewController.swift */; };
+		1A3228B625C1EF9E00DC6F0F /* UIStackView+Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3228B525C1EF9E00DC6F0F /* UIStackView+Styles.swift */; };
+		1A3228CC25C2624000DC6F0F /* FirestoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3228CB25C2624000DC6F0F /* FirestoreController.swift */; };
 		1AAE8E5F25C140D8001101D8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AAE8E5E25C140D8001101D8 /* GoogleService-Info.plist */; };
 		1AD3BBB825C1B9A700A36B49 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD3BBB725C1B9A700A36B49 /* HomeViewController.swift */; };
 		1AD6D84525BFF70F007D1D70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6D84425BFF70F007D1D70 /* AppDelegate.swift */; };
@@ -27,6 +30,9 @@
 		017769C104C20C96643072DC /* Pods-FlightScope.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightScope.release.xcconfig"; path = "Target Support Files/Pods-FlightScope/Pods-FlightScope.release.xcconfig"; sourceTree = "<group>"; };
 		1A32289625C1C17900DC6F0F /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		1A32289925C1C9F600DC6F0F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1A32289C25C1DF6400DC6F0F /* PanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelViewController.swift; sourceTree = "<group>"; };
+		1A3228B525C1EF9E00DC6F0F /* UIStackView+Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Styles.swift"; sourceTree = "<group>"; };
+		1A3228CB25C2624000DC6F0F /* FirestoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreController.swift; sourceTree = "<group>"; };
 		1AAE8E5E25C140D8001101D8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1AD3BBB725C1B9A700A36B49 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1AD6D84125BFF70F007D1D70 /* FlightScope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightScope.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +69,22 @@
 				017769C104C20C96643072DC /* Pods-FlightScope.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		1A3228B425C1EF8600DC6F0F /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				1A3228B525C1EF9E00DC6F0F /* UIStackView+Styles.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		1A3228CA25C2622F00DC6F0F /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1A3228CB25C2624000DC6F0F /* FirestoreController.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		1AD6D83825BFF70F007D1D70 = {
@@ -119,6 +141,7 @@
 		1AF2D21025C0035700F127EF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1A3228CA25C2622F00DC6F0F /* Networking */,
 				1AF2D22125C0174500F127EF /* Destinations.swift */,
 			);
 			path = Model;
@@ -127,7 +150,6 @@
 		1AF2D21125C0035C00F127EF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1AF2D21325C0036700F127EF /* Model Controllers */,
 				1AF2D21225C0036200F127EF /* View Controllers */,
 			);
 			path = Controllers;
@@ -138,20 +160,15 @@
 			children = (
 				1AF2D21925C004C500F127EF /* DestinationViewController.swift */,
 				1AD3BBB725C1B9A700A36B49 /* HomeViewController.swift */,
+				1A32289C25C1DF6400DC6F0F /* PanelViewController.swift */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		1AF2D21325C0036700F127EF /* Model Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Model Controllers";
 			sourceTree = "<group>";
 		};
 		1AF2D21425C003BB00F127EF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1A3228B425C1EF8600DC6F0F /* Styles */,
 				1AF2D21525C003C700F127EF /* AutoLayoutEngine.swift */,
 				1A32289625C1C17900DC6F0F /* Globals.swift */,
 				1A32289925C1C9F600DC6F0F /* Extensions.swift */,
@@ -298,12 +315,15 @@
 				1AD6D84525BFF70F007D1D70 /* AppDelegate.swift in Sources */,
 				1A32289A25C1C9F600DC6F0F /* Extensions.swift in Sources */,
 				1AF2D21625C003C700F127EF /* AutoLayoutEngine.swift in Sources */,
+				1A3228CC25C2624000DC6F0F /* FirestoreController.swift in Sources */,
 				1AD6D84725BFF70F007D1D70 /* SceneDelegate.swift in Sources */,
 				1AF2D21E25C00E4500F127EF /* DefaultCollectionViewCell.swift in Sources */,
 				1A32289725C1C17900DC6F0F /* Globals.swift in Sources */,
 				1AF2D22225C0174500F127EF /* Destinations.swift in Sources */,
 				1AD3BBB825C1B9A700A36B49 /* HomeViewController.swift in Sources */,
 				1AF2D21A25C004C500F127EF /* DestinationViewController.swift in Sources */,
+				1A3228B625C1EF9E00DC6F0F /* UIStackView+Styles.swift in Sources */,
+				1A32289D25C1DF6400DC6F0F /* PanelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

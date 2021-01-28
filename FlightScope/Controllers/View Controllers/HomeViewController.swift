@@ -10,13 +10,14 @@ import UIKit
 class HomeViewController: UIViewController {
     
     // MARK: - Properties -
-    let backgroundImageView = UIImageView()
     let backgroundImage = UIImage(named: "homebackground")
+    let stackSpacing: CGFloat = 16
     
     let homeTitle = UILabel()
     let homeSubTitle = UILabel()
     let homeButton = UIButton()
     let verticalStackView = UIStackView()
+    let backgroundImageView = UIImageView()
     
     // MARK: - Lifecycle -
     override func viewDidLoad() {
@@ -37,7 +38,7 @@ class HomeViewController: UIViewController {
         verticalStackView.axis = .vertical
         verticalStackView.alignment = .fill
         verticalStackView.distribution = .fill
-        verticalStackView.spacing = 16
+        verticalStackView.spacing = stackSpacing
         
         homeTitle.attributedText = titleAttributedText()
         homeTitle.numberOfLines = 0
@@ -49,8 +50,9 @@ class HomeViewController: UIViewController {
         homeSubTitle.font = .systemFont(ofSize: 16.0, weight: .regular)
         
         homeButton.setTitle(NSLocalizedString("Explore Now", comment: "HomeViewController"), for: .normal)
-        homeButton.setTitleColor(.white, for: .normal)
-        homeButton.backgroundColor = .customColor(.coral)
+        homeButton.setTitleColor(.customColor(.black), for: .normal)
+        homeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18.0)
+        homeButton.backgroundColor = .customColor(.blue)
         homeButton.addTarget(self, action: #selector(homeButtonAction), for: .touchUpInside)
         homeButton.layer.cornerRadius = 10
         homeButton.setDimensions(width: 280, height: 51)
@@ -98,15 +100,15 @@ extension HomeViewController {
         verticalStackView.centerY(inView: view)
         verticalStackView.anchor(leading: view.leadingAnchor,
                                  trailing: view.trailingAnchor,
-                                 anchorLeading: standardPadding,
-                                 anchorTrailing: -standardPadding)
+                                 paddingLeading: standardPadding,
+                                 paddingTrailing: -standardPadding)
         
         view.addSubview(homeButton)
         homeButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
                           leading: view.leadingAnchor,
                           trailing: view.trailingAnchor,
                           paddingBottom: standardPadding,
-                          anchorLeading: standardPadding,
-                          anchorTrailing: -standardPadding)
+                          paddingLeading: standardPadding,
+                          paddingTrailing: -standardPadding)
     }
 }

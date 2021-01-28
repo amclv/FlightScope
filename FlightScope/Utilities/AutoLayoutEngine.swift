@@ -20,8 +20,8 @@ extension UIView {
                 paddingLeft: CGFloat = 0,
                 paddingBottom: CGFloat = 0,
                 paddingRight: CGFloat = 0,
-                anchorLeading: CGFloat = 0,
-                anchorTrailing: CGFloat = 0,
+                paddingLeading: CGFloat = 0,
+                paddingTrailing: CGFloat = 0,
                 width: CGFloat? = nil,
                 height: CGFloat? = nil) {
         
@@ -36,11 +36,11 @@ extension UIView {
         }
         
         if let leading = leading {
-            leadingAnchor.constraint(equalTo: leading, constant: anchorLeading).isActive = true
+            leadingAnchor.constraint(equalTo: leading, constant: paddingLeading).isActive = true
         }
         
         if let trailing = trailing {
-            trailingAnchor.constraint(equalTo: trailing, constant: anchorTrailing).isActive = true
+            trailingAnchor.constraint(equalTo: trailing, constant: paddingTrailing).isActive = true
         }
         
         if let bottom = bottom {
@@ -95,15 +95,5 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
         anchor(top: view.topAnchor, left: view.leftAnchor,
                bottom: view.bottomAnchor, right: view.rightAnchor)
-    }
-}
-
-// MARK: - XIB Extension -
-extension UIView {
-//    Loads instance from nib with the same name.
-    func loadNib(nibName: String) -> UIView? {
-        let bundle = Bundle(for: type(of: self))
-        let nib = UINib(nibName: nibName, bundle: bundle)
-        return nib.instantiate(withOwner: self, options: nil).first as? UIView
     }
 }
