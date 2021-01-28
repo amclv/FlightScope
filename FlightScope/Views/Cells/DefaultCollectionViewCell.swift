@@ -47,10 +47,9 @@ extension DefaultCollectionViewCell {
         locationImageView.addConstraintsToFillView(contentView)
         
         contentView.addSubview(locationName)
-        locationName.centerY(inView: contentView)
-        locationName.anchor(leading: contentView.leadingAnchor,
-                            trailing: contentView.trailingAnchor,
-                            paddingLeading: standardPadding,
-                            paddingTrailing: -standardPadding)
+        locationName.anchor(bottom: contentView.bottomAnchor,
+                            leading: contentView.leadingAnchor,
+                            paddingBottom: standardPadding,
+                            paddingLeading: standardPadding)
     }
 }

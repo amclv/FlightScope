@@ -23,8 +23,6 @@ class DestinationViewController: UIViewController {
     
     // MARK: - Computer Properties -
     // Explore Section
-    let searchBar = UISearchBar()
-    
     let travelCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -61,17 +59,11 @@ class DestinationViewController: UIViewController {
         constraints()
         delegates()
         setFloatingPanel()
-        
-        searchBar.placeholder = "Search"
-        searchBar.sizeToFit()
-        searchBar.backgroundImage = UIImage()
-        searchBar.tintColor = UIColor(red:0.73, green:0.76, blue:0.78, alpha:1.0)
     }
     
     private func delegates() {
         travelCollectionView.delegate = self
         travelCollectionView.dataSource = self
-        searchBar.delegate = self
     }
     
     private func setFloatingPanel() {
@@ -90,6 +82,47 @@ class DestinationViewController: UIViewController {
         panel.surfaceView.appearance.cornerRadius = cellCornerRadius
     }
     
+    func addPanel() {
+        // Add the floating panel view to the controller's view on top of other views.
+        self.view.addSubview(panel.view)
+        
+        // REQUIRED. It makes the floating panel view have the same size as the controller's view.
+        panel.view.frame = self.view.bounds
+        
+        // In addition, Auto Layout constraints are highly recommended.
+        // Constraint the fpc.view to all four edges of your controller's view.
+        // It makes the layout more robust on trait collection change.
+        panel.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            panel.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
+            panel.view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0.0),
+            panel.view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0.0),
+            panel.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0),
+        ])
+        
+        // Add the floating panel controller to the controller hierarchy.
+        self.addChild(panel)
+        
+        // Show the floating panel at the initial position defined in your `FloatingPanelLayout` object.
+        panel.show(animated: true) {
+            // Inform the floating panel controller that the transition to the controller hierarchy has completed.
+            self.panel.didMove(toParent: self)
+        }
+    }
+    
+    func removePanel() {
+        // Inform the panel controller that it will be removed from the hierarchy.
+        panel.willMove(toParent: nil)
+        
+        // Hide the floating panel.
+        panel.hide(animated: true) { [self] in
+            // Remove the floating panel view from your controller's view.
+            panel.view.removeFromSuperview()
+            // Remove the floating panel controller from the controller hierarchy.
+            panel.removeFromParent()
+        }
+    }
+    
     // MARK: - Actions -
 }
 
@@ -98,12 +131,8 @@ extension DestinationViewController {
     // MARK: - Constraints -
     private func constraints() {
         // Explore Constraints
-        view.addSubview(searchBar)
-        searchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor)
-        searchBar.setDimensions(width: view.frame.width, height: 60)
-        
         view.addSubview(travelCollectionView)
-        travelCollectionView.anchor(top: searchBar.bottomAnchor,
+        travelCollectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                     leading: view.leadingAnchor,
                                     trailing: view.trailingAnchor,
@@ -120,7 +149,7 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCollectionViewCell.identifier, for: indexPath) as! DefaultCollectionViewCell
-        let destination = firestoreController.destinationArray[indexPath.row]
+        let destination = firestoreController.destinationArray[indexPath.item]
         
         guard let urlString = destination.downloadLink,
               let url = URL(string: urlString) else { return UICollectionViewCell() }
@@ -132,24 +161,12 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        let panel = PanelViewController()
-        let destArray = firestoreController.destinationArray[indexPath.row]
+        let destinationArray = firestoreController.destinationArray[indexPath.item]
+        let float = PanelViewController()
         
-        //Briefly fade the cell on selection
-        UIView.animate(withDuration: 0.5, animations: {
-            //Fade-out
-            cell?.alpha = 0.5
-        }) { (completed) in
-            UIView.animate(withDuration: 0.5, animations: {
-                //Fade-out
-                cell?.alpha = 1
-                UIView.animate(withDuration: 0.25) {
-                    self.panel.move(to: .full, animated: false)
-                }
-            })
-        }
-        panel.panelTitle.text = destArray.locationCountry
+        float.destination = destinationArray
+        panel.modalPresentationStyle = .popover
+        panel.present(float, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -187,34 +204,4 @@ extension DestinationViewController: FloatingPanelControllerDelegate {
             return 0.0
         }
     }
-}
-
-// MARK: - DestinationViewController UISearchBarDelegate -
-extension DestinationViewController: UISearchBarDelegate {
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
-    //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    //            if searchText.count == 0 {
-    //                isSearch = false
-    //                self.maintableView.reloadData()
-    //            } else {
-    //                filteredTableData = tableData.filter({ (text) -> Bool in
-    //                    let tmp: NSString = text as NSString
-    //                    let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-    //                    return range.location != NSNotFound
-    //                })
-    //                if(filteredTableData.count == 0){
-    //                    isSearch = false
-    //                } else {
-    //                    isSearch = true
-    //                }
-    //                self.maintableView.reloadData()
-    //            }
-    //        }
 }

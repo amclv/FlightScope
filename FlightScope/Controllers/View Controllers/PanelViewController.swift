@@ -19,35 +19,85 @@ import UIKit
 
 class PanelViewController: UIViewController {
     
+    let destVC = DestinationViewController()
+    
     // MARK: - Properties -
     let scrollViewSpacing: CGFloat = 8
     let panelTitleHeight: CGFloat = 70
     
+    var destination: Destination? {
+        didSet {
+            updateUI()
+        }
+    }
+    
     // MARK: - Computer Properties -
     let scrollView: UIScrollView = {
         let v = UIScrollView()
-        v.backgroundColor = .customColor(.green)
         return v
     }()
     
     let contentView: UIView = {
         let cv = UIView()
-        cv.backgroundColor = .lightGray
         return cv
     }()
     
-    let panelTitle: UILabel = {
+    let panelLocation: UILabel = {
         let label = UILabel()
-        label.text = "Test"
         label.textColor = .customColor(.black)
         label.textAlignment = .center
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
-
+    
+    let panelImageView: ImageLoader = {
+        let imageView = ImageLoader()
+        imageView.contentMode = .scaleAspectFill
+        imageView.setDimensions(width: UIScreen.screenWidth, height: UIScreen.screenHeight / 2)
+        return imageView
+    }()
+    
+    let cameraDetails: UITextView = {
+        let camera = UITextView()
+        camera.isEditable = false
+        camera.backgroundColor = .customColor(.green)
+        camera.font = .systemFont(ofSize: 16.0, weight: .light)
+        camera.textColor = .customColor(.white)
+        return camera
+    }()
+    
+    let vStack = CustomStackView(style: .vertical, distribution: .fill, alignment: .leading)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         constraints()
+        updateUI()
+        view.backgroundColor = .customColor(.green)
+        
+        cameraDetails.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
+    func updateUI() {
+        guard let destination = destination else { return }
+        
+        guard let urlString = destination.downloadLink,
+              let url = URL(string: urlString) else { return }
+        panelImageView.loadImageWithUrl(url)
+        panelLocation.text = "\(destination.locationCity ?? "Unknown City"), \(destination.locationCountry ?? "Unknown Country")"
+        cameraDetails.text =
+            """
+            Make: \(destination.exifMake ?? "No Camera")
+            Model: \(destination.exifModel ?? "No Camera")
+            ISO: \(destination.exifIso ?? "No ISO")
+            Focal Length: \(destination.exifFocalLength ?? "No Focal")
+            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
+            Aperture: \(destination.exifAperture ?? "No Aperture")
+            """
     }
 
 }
@@ -65,17 +115,28 @@ extension PanelViewController {
                            bottom: scrollView.bottomAnchor,
                            leading: scrollView.leadingAnchor,
                            trailing: scrollView.trailingAnchor)
-        contentView.centerX(inView: scrollView)
-        contentView.centerY(inView: scrollView)
+    
+        contentView.addSubview(panelImageView)
+        panelImageView.anchor(top: contentView.topAnchor,
+                              leading: contentView.leadingAnchor,
+                              trailing: contentView.trailingAnchor)
         
-        contentView.addSubview(panelTitle)
-        panelTitle.anchor(leading: contentView.leadingAnchor,
-                          trailing: contentView.trailingAnchor)
-        panelTitle.centerX(inView: contentView)
-        
-        panelTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        panelTitle.heightAnchor.constraint(equalToConstant: panelTitleHeight).isActive = true
-
+        vStack.addArrangedSubview(panelLocation)
+        vStack.addArrangedSubview(cameraDetails)
+        cameraDetails.setDimensions(width: 200, height: 200)
+        contentView.addSubview(vStack)
+        vStack.anchor(top: panelImageView.bottomAnchor,
+                      bottom: contentView.bottomAnchor,
+                      leading: contentView.leadingAnchor,
+                      trailing: contentView.trailingAnchor,
+                      paddingTop: standardPadding,
+                      paddingBottom: standardPadding,
+                      paddingLeading: standardPadding,
+                      paddingTrailing: -standardPadding)
     }
+}
+
+extension PanelViewController: UITextViewDelegate {
+    
 }
 
