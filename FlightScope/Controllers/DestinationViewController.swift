@@ -134,6 +134,7 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         let panel = PanelViewController()
+        let destArray = firestoreController.destinationArray[indexPath.row]
         
         //Briefly fade the cell on selection
         UIView.animate(withDuration: 0.5, animations: {
@@ -145,11 +146,10 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
                 cell?.alpha = 1
                 UIView.animate(withDuration: 0.25) {
                     self.panel.move(to: .full, animated: false)
-                    panel.panelTitle.text = self.firestoreController.destinationArray[indexPath.row].locationCity
-                    
                 }
             })
         }
+        panel.panelTitle.text = destArray.locationCountry
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

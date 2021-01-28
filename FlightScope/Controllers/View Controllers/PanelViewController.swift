@@ -30,8 +30,15 @@ class PanelViewController: UIViewController {
         return v
     }()
     
+    let contentView: UIView = {
+        let cv = UIView()
+        cv.backgroundColor = .lightGray
+        return cv
+    }()
+    
     let panelTitle: UILabel = {
         let label = UILabel()
+        label.text = "Test"
         label.textColor = .customColor(.black)
         label.textAlignment = .center
         return label
@@ -53,11 +60,20 @@ extension PanelViewController {
                           leading: view.leadingAnchor,
                           trailing: view.trailingAnchor)
         
-        scrollView.addSubview(panelTitle)
-        panelTitle.anchor(leading: scrollView.leadingAnchor,
-                          trailing: scrollView.trailingAnchor)
+        scrollView.addSubview(contentView)
+        contentView.anchor(top: scrollView.topAnchor,
+                           bottom: scrollView.bottomAnchor,
+                           leading: scrollView.leadingAnchor,
+                           trailing: scrollView.trailingAnchor)
+        contentView.centerX(inView: scrollView)
+        contentView.centerY(inView: scrollView)
         
-        panelTitle.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.addSubview(panelTitle)
+        panelTitle.anchor(leading: contentView.leadingAnchor,
+                          trailing: contentView.trailingAnchor)
+        panelTitle.centerX(inView: contentView)
+        
+        panelTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
         panelTitle.heightAnchor.constraint(equalToConstant: panelTitleHeight).isActive = true
 
     }
