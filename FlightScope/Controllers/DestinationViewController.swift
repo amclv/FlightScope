@@ -48,11 +48,11 @@ class DestinationViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // Remove the views managed by the `FloatingPanelController` object from self.view.
-        panel.removeFromParent()
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        // Remove the views managed by the `FloatingPanelController` object from self.view.
+//        panel.removeFromParent()
+//    }
     
     // MARK: - Functions -
     private func configUI() {
@@ -81,49 +81,6 @@ class DestinationViewController: UIViewController {
         // Adds a corner radius to the FloatingPanel view.
         panel.surfaceView.appearance.cornerRadius = cellCornerRadius
     }
-    
-    func addPanel() {
-        // Add the floating panel view to the controller's view on top of other views.
-        self.view.addSubview(panel.view)
-        
-        // REQUIRED. It makes the floating panel view have the same size as the controller's view.
-        panel.view.frame = self.view.bounds
-        
-        // In addition, Auto Layout constraints are highly recommended.
-        // Constraint the fpc.view to all four edges of your controller's view.
-        // It makes the layout more robust on trait collection change.
-        panel.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            panel.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
-            panel.view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0.0),
-            panel.view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0.0),
-            panel.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0),
-        ])
-        
-        // Add the floating panel controller to the controller hierarchy.
-        self.addChild(panel)
-        
-        // Show the floating panel at the initial position defined in your `FloatingPanelLayout` object.
-        panel.show(animated: true) {
-            // Inform the floating panel controller that the transition to the controller hierarchy has completed.
-            self.panel.didMove(toParent: self)
-        }
-    }
-    
-    func removePanel() {
-        // Inform the panel controller that it will be removed from the hierarchy.
-        panel.willMove(toParent: nil)
-        
-        // Hide the floating panel.
-        panel.hide(animated: true) { [self] in
-            // Remove the floating panel view from your controller's view.
-            panel.view.removeFromSuperview()
-            // Remove the floating panel controller from the controller hierarchy.
-            panel.removeFromParent()
-        }
-    }
-    
-    // MARK: - Actions -
 }
 
 // MARK: - DestinationViewController Extensions -
@@ -165,8 +122,11 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
         let float = PanelViewController()
         
         float.destination = destinationArray
-        panel.modalPresentationStyle = .popover
-        panel.present(float, animated: true, completion: nil)
+        panel.show(animated: true, completion: { [self] in
+//            panel.move(to: .full, animated: true)
+            panel.modalPresentationStyle = .popover
+            panel.present(float, animated: true, completion: nil)
+        })
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
