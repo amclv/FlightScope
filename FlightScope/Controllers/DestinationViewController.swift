@@ -11,7 +11,7 @@ import FirebaseFirestore
 import FloatingPanel
 
 class DestinationViewController: UIViewController {
-
+    
     let firestoreController = FirestoreController()
     
     // MARK: - Properties -
@@ -90,6 +90,16 @@ class DestinationViewController: UIViewController {
         panel.surfaceView.appearance.cornerRadius = cellCornerRadius
     }
     
+    /// Returns nil if image data is not correct or some network error has happened
+    func getImageFromUrl(sourceUrl: String) -> UIImage? {
+        if let url = URL(string: sourceUrl) {
+            if let imageData = try? Data(contentsOf:url) {
+                return UIImage(data: imageData)
+            }
+        }
+        return nil
+    }
+    
     // MARK: - Actions -
 }
 
@@ -122,6 +132,13 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCollectionViewCell.identifier, for: indexPath) as! DefaultCollectionViewCell
         let destination = firestoreController.destinationArray[indexPath.row]
+        
+        //        guard let urlString = destination.photoLink,
+        //              let url = URL(string: urlString) else { return UICollectionViewCell() }
+        
+        let imageURL = URL(string: destination.photoLink!)
+        let imagedData = try? Data(contentsOf: imageURL! as URL)
+        cell.locationImageView.image = UIImage(data: imagedData ?? UIImage(named: "placeholderImage"))
         
         cell.locationName.text = destination.locationName
         cell.backgroundColor = .darkGray
@@ -169,7 +186,7 @@ extension DestinationViewController: FloatingPanelControllerDelegate {
         let full: CGFloat = 0
         let half: CGFloat = 422
         let tip: CGFloat = 45.0
-
+        
         var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
             return [
                 .full: FloatingPanelLayoutAnchor(absoluteInset: full, edge: .top, referenceGuide: .safeArea),
@@ -177,7 +194,7 @@ extension DestinationViewController: FloatingPanelControllerDelegate {
                 .tip: FloatingPanelLayoutAnchor(absoluteInset: tip, edge: .bottom, referenceGuide: .safeArea),
             ]
         }
-
+        
         func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
             return 0.0
         }
@@ -194,22 +211,22 @@ extension DestinationViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
     }
     
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//            if searchText.count == 0 {
-//                isSearch = false
-//                self.maintableView.reloadData()
-//            } else {
-//                filteredTableData = tableData.filter({ (text) -> Bool in
-//                    let tmp: NSString = text as NSString
-//                    let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-//                    return range.location != NSNotFound
-//                })
-//                if(filteredTableData.count == 0){
-//                    isSearch = false
-//                } else {
-//                    isSearch = true
-//                }
-//                self.maintableView.reloadData()
-//            }
-//        }
+    //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    //            if searchText.count == 0 {
+    //                isSearch = false
+    //                self.maintableView.reloadData()
+    //            } else {
+    //                filteredTableData = tableData.filter({ (text) -> Bool in
+    //                    let tmp: NSString = text as NSString
+    //                    let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+    //                    return range.location != NSNotFound
+    //                })
+    //                if(filteredTableData.count == 0){
+    //                    isSearch = false
+    //                } else {
+    //                    isSearch = true
+    //                }
+    //                self.maintableView.reloadData()
+    //            }
+    //        }
 }

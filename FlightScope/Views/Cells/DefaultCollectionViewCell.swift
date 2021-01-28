@@ -10,7 +10,19 @@ import UIKit
 class DefaultCollectionViewCell: UICollectionViewCell {
     
     static var identifier: String = "DefaultCollectionViewCell"
-    let locationName = UILabel()
+    
+    let locationName: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16.0, weight: .semibold)
+        label.textColor = .label
+        return label
+    }()
+    
+    let locationImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -23,15 +35,17 @@ class DefaultCollectionViewCell: UICollectionViewCell {
     
     private func configUI() {
         constraints()
-        
-        locationName.font = .systemFont(ofSize: 16.0, weight: .semibold)
-        locationName.textColor = .label
     }
 }
 
 extension DefaultCollectionViewCell {
     private func constraints() {
+        contentView.addSubview(locationImageView)
+        locationImageView.addConstraintsToFillView(contentView)
+        
         contentView.addSubview(locationName)
-        locationName.center(inView: contentView)
+        locationName.anchor(bottom: contentView.bottomAnchor,
+                            leading: contentView.leadingAnchor,
+                            trailing: contentView.trailingAnchor)
     }
 }
