@@ -13,13 +13,12 @@ import FloatingPanel
 class DestinationViewController: UIViewController {
     
     let firestoreController = FirestoreController()
+    var panel: FloatingPanelController!
     
     // MARK: - Properties -
     let standardPadding: CGFloat = 20
     let cellCornerRadius: CGFloat = 20
     let standardSpacing: CGFloat = 8
-    
-    var panel: FloatingPanelController!
     
     // MARK: - Computer Properties -
     // Explore Section
@@ -39,26 +38,21 @@ class DestinationViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configUI()
-        
+        setFloatingPanel()
         navigationItem.title = "Explore"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        firestoreController.fetchData {
+        firestoreController.fetchData { [weak self] in
+            guard let self = self else { return }
+            self.setData(dataSource: self.firestoreController.destinationArray[1])
             self.travelCollectionView.reloadData()
         }
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        // Remove the views managed by the `FloatingPanelController` object from self.view.
-//        panel.removeFromParent()
-//    }
     
     // MARK: - Functions -
     private func configUI() {
         constraints()
         delegates()
-        setFloatingPanel()
     }
     
     private func delegates() {
@@ -66,13 +60,14 @@ class DestinationViewController: UIViewController {
         travelCollectionView.dataSource = self
     }
     
-    private func setFloatingPanel() {
+    func setFloatingPanel() {
+        super.viewDidLoad()
         // Initialize a 'FloatingPanelController'
         panel = FloatingPanelController()
         // Assign self as the delegate of the controller
         panel.delegate = self
         // Setup PanelViewController
-        let panelVC = PanelViewController()
+        let panelVC = ContentViewController()
         panel.set(contentViewController: panelVC)
         // Track a scroll view in the PanelViewController
         panel.track(scrollView: panelVC.scrollView)
@@ -80,6 +75,11 @@ class DestinationViewController: UIViewController {
         panel.addPanel(toParent: self)
         // Adds a corner radius to the FloatingPanel view.
         panel.surfaceView.appearance.cornerRadius = cellCornerRadius
+    }
+    
+    func setData(dataSource: Destination) {
+        guard isViewLoaded, let contentView = panel.contentViewController as? ContentViewController else { return }
+        contentView.destination = dataSource
     }
 }
 
@@ -119,14 +119,8 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destinationArray = firestoreController.destinationArray[indexPath.item]
-        let float = PanelViewController()
-        
-        float.destination = destinationArray
-        panel.show(animated: true, completion: { [self] in
-//            panel.move(to: .full, animated: true)
-            panel.modalPresentationStyle = .popover
-            panel.present(float, animated: true, completion: nil)
-        })
+        setData(dataSource: destinationArray)
+        panel.move(to: .full, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

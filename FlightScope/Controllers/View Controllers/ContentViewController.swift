@@ -1,23 +1,13 @@
 //
-//  PanelViewController.swift
+//  ContentViewController.swift
 //  FlightScope
 //
-//  Created by Aaron Cleveland on 1/27/21.
+//  Created by Aaron Cleveland on 1/28/21.
 //
-// SCROLL VIEW NOTES:
-// scrollView's .contentSize.width is now
-// scrollView's width (defined by subviews' leading and trailing anchors
-//
-// and scrollView's .contentSize.height is now
-// redView-Height + 20-pts-spacing +
-// greenView-Height + 20-pts-spacing +
-// blueView-Height +
-// 8-pts top-padding + 8-pts bottom-padding
-// or 956
 
 import UIKit
 
-class PanelViewController: UIViewController {
+class ContentViewController: UIViewController {
     
     let destVC = DestinationViewController()
     
@@ -70,10 +60,9 @@ class PanelViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        constraints()
         updateUI()
+        constraints()
         view.backgroundColor = .customColor(.green)
-        
         cameraDetails.delegate = self
     }
     
@@ -97,12 +86,36 @@ class PanelViewController: UIViewController {
             Focal Length: \(destination.exifFocalLength ?? "No Focal")
             Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
             Aperture: \(destination.exifAperture ?? "No Aperture")
+            Make: \(destination.exifMake ?? "No Camera")
+            Model: \(destination.exifModel ?? "No Camera")
+            ISO: \(destination.exifIso ?? "No ISO")
+            Focal Length: \(destination.exifFocalLength ?? "No Focal")
+            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
+            Aperture: \(destination.exifAperture ?? "No Aperture")
+            Make: \(destination.exifMake ?? "No Camera")
+            Model: \(destination.exifModel ?? "No Camera")
+            ISO: \(destination.exifIso ?? "No ISO")
+            Focal Length: \(destination.exifFocalLength ?? "No Focal")
+            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
+            Aperture: \(destination.exifAperture ?? "No Aperture")
+            Make: \(destination.exifMake ?? "No Camera")
+            Model: \(destination.exifModel ?? "No Camera")
+            ISO: \(destination.exifIso ?? "No ISO")
+            Focal Length: \(destination.exifFocalLength ?? "No Focal")
+            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
+            Aperture: \(destination.exifAperture ?? "No Aperture")
+            Make: \(destination.exifMake ?? "No Camera")
+            Model: \(destination.exifModel ?? "No Camera")
+            ISO: \(destination.exifIso ?? "No ISO")
+            Focal Length: \(destination.exifFocalLength ?? "No Focal")
+            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
+            Aperture: \(destination.exifAperture ?? "No Aperture")
             """
     }
 
 }
 
-extension PanelViewController {
+extension ContentViewController {
     private func constraints() {
         view.addSubview(scrollView)
         scrollView.anchor(top: view.topAnchor,
@@ -123,7 +136,7 @@ extension PanelViewController {
         
         vStack.addArrangedSubview(panelLocation)
         vStack.addArrangedSubview(cameraDetails)
-        cameraDetails.setDimensions(width: 200, height: 200)
+        cameraDetails.setDimensions(width: 200, height: 500)
         contentView.addSubview(vStack)
         vStack.anchor(top: panelImageView.bottomAnchor,
                       bottom: contentView.bottomAnchor,
@@ -136,7 +149,6 @@ extension PanelViewController {
     }
 }
 
-extension PanelViewController: UITextViewDelegate {
+extension ContentViewController: UITextViewDelegate {
     
 }
-
