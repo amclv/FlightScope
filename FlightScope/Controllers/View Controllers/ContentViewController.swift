@@ -86,30 +86,6 @@ class ContentViewController: UIViewController {
             Focal Length: \(destination.exifFocalLength ?? "No Focal")
             Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
             Aperture: \(destination.exifAperture ?? "No Aperture")
-            Make: \(destination.exifMake ?? "No Camera")
-            Model: \(destination.exifModel ?? "No Camera")
-            ISO: \(destination.exifIso ?? "No ISO")
-            Focal Length: \(destination.exifFocalLength ?? "No Focal")
-            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
-            Aperture: \(destination.exifAperture ?? "No Aperture")
-            Make: \(destination.exifMake ?? "No Camera")
-            Model: \(destination.exifModel ?? "No Camera")
-            ISO: \(destination.exifIso ?? "No ISO")
-            Focal Length: \(destination.exifFocalLength ?? "No Focal")
-            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
-            Aperture: \(destination.exifAperture ?? "No Aperture")
-            Make: \(destination.exifMake ?? "No Camera")
-            Model: \(destination.exifModel ?? "No Camera")
-            ISO: \(destination.exifIso ?? "No ISO")
-            Focal Length: \(destination.exifFocalLength ?? "No Focal")
-            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
-            Aperture: \(destination.exifAperture ?? "No Aperture")
-            Make: \(destination.exifMake ?? "No Camera")
-            Model: \(destination.exifModel ?? "No Camera")
-            ISO: \(destination.exifIso ?? "No ISO")
-            Focal Length: \(destination.exifFocalLength ?? "No Focal")
-            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
-            Aperture: \(destination.exifAperture ?? "No Aperture")
             """
     }
 
@@ -136,7 +112,7 @@ extension ContentViewController {
         
         vStack.addArrangedSubview(panelLocation)
         vStack.addArrangedSubview(cameraDetails)
-        cameraDetails.setDimensions(width: 200, height: 500)
+        cameraDetails.setDimensions(width: view.frame.width, height: 500)
         contentView.addSubview(vStack)
         vStack.anchor(top: panelImageView.bottomAnchor,
                       bottom: contentView.bottomAnchor,

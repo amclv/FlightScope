@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>897207250334-mf36ro289bjf3v4k7k5tg558k5dso31v.apps.googleusercontent.com</string>
+	<string>145549845790-62br8kkkvljjfkt4v08k8koj4v0agcqr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.897207250334-mf36ro289bjf3v4k7k5tg558k5dso31v</string>
+	<string>com.googleusercontent.apps.145549845790-62br8kkkvljjfkt4v08k8koj4v0agcqr</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCy179pCTgeNwEV5KLZyRVtS2J2VTlC0io</string>
+	<string>AIzaSyDbkOYzQRreiNoI1y1jEeH2Bjl_KMxICHY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>897207250334</string>
+	<string>145549845790</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.aaroncleveland.FlightScope</string>
+	<string>com.aaroncleveland.Destination</string>
 	<key>PROJECT_ID</key>
-	<string>destination-74081</string>
+	<string>destination-5c023</string>
 	<key>STORAGE_BUCKET</key>
-	<string>destination-74081.appspot.com</string>
+	<string>destination-5c023.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:897207250334:ios:3300bdd0996136051a3a8f</string>
+	<string>1:145549845790:ios:dde67e3e90d41de372950f</string>
 </dict>
 </plist>

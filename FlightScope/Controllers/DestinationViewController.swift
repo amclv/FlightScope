@@ -77,6 +77,7 @@ class DestinationViewController: UIViewController {
         panel.surfaceView.appearance.cornerRadius = cellCornerRadius
     }
     
+    // Pushes my data and allows it to appear in the FloatingPanel
     func setData(dataSource: Destination) {
         guard isViewLoaded, let contentView = panel.contentViewController as? ContentViewController else { return }
         contentView.destination = dataSource
