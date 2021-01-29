@@ -10,6 +10,7 @@ import UIKit
 class ContentViewController: UIViewController {
     
     let destVC = DestinationViewController()
+    let networkManager = NetworkManager()
     
     // MARK: - Properties -
     let scrollViewSpacing: CGFloat = 8
@@ -22,17 +23,15 @@ class ContentViewController: UIViewController {
     }
     
     // MARK: - Computer Properties -
-    let scrollView: UIScrollView = {
-        let v = UIScrollView()
-        return v
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.alwaysBounceVertical = false
+        view.frame.size.height = 2000
+        view.clipsToBounds = true
+        return view
     }()
     
-    let contentView: UIView = {
-        let cv = UIView()
-        return cv
-    }()
-    
-    let panelLocation: UILabel = {
+    lazy var panelLocation: UILabel = {
         let label = UILabel()
         label.textColor = .customColor(.black)
         label.textAlignment = .center
@@ -40,10 +39,11 @@ class ContentViewController: UIViewController {
         return label
     }()
     
-    let panelImageView: ImageLoader = {
+    lazy var panelImageView: ImageLoader = {
         let imageView = ImageLoader()
         imageView.contentMode = .scaleAspectFill
-        imageView.setDimensions(width: UIScreen.screenWidth, height: UIScreen.screenHeight / 2)
+        imageView.clipsToBounds = true
+        imageView.setDimensions(width: UIScreen.screenWidth, height: UIScreen.screenWidth / 1.50)
         return imageView
     }()
     
@@ -56,24 +56,41 @@ class ContentViewController: UIViewController {
         return camera
     }()
     
-    let vStack = CustomStackView(style: .vertical, distribution: .fill, alignment: .leading)
+    let placesCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        cv.backgroundColor = .purple
+        return cv
+    }()
 
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .customColor(.green)
+//        delegates()
+//        getPlaces()
         updateUI()
         constraints()
-        view.backgroundColor = .customColor(.green)
-        cameraDetails.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        updateUI()
+    func getPlaces() {
+        guard let destinationCity = destination?.locationCity else { return }
+        networkManager.fetchData(cityName: "\(destinationCity)") {
+            return
+        }
     }
+    
+//    func delegates() {
+//        cameraDetails.delegate = self
+//        scrollView.delegate = self
+//    }
     
     func updateUI() {
         guard let destination = destination else { return }
-        
+
         guard let urlString = destination.downloadLink,
               let url = URL(string: urlString) else { return }
         panelImageView.loadImageWithUrl(url)
@@ -88,6 +105,12 @@ class ContentViewController: UIViewController {
             Aperture: \(destination.exifAperture ?? "No Aperture")
             """
     }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < 0 {
+            scrollView.contentOffset.y = 0
+        }
+    }
 
 }
 
@@ -99,32 +122,39 @@ extension ContentViewController {
                           leading: view.leadingAnchor,
                           trailing: view.trailingAnchor)
         
-        scrollView.addSubview(contentView)
-        contentView.anchor(top: scrollView.topAnchor,
-                           bottom: scrollView.bottomAnchor,
-                           leading: scrollView.leadingAnchor,
-                           trailing: scrollView.trailingAnchor)
-    
-        contentView.addSubview(panelImageView)
-        panelImageView.anchor(top: contentView.topAnchor,
-                              leading: contentView.leadingAnchor,
-                              trailing: contentView.trailingAnchor)
+        scrollView.addSubview(panelImageView)
+        panelImageView.anchor(top: scrollView.topAnchor,
+                              leading: scrollView.leadingAnchor,
+                              trailing: scrollView.trailingAnchor)
         
-        vStack.addArrangedSubview(panelLocation)
-        vStack.addArrangedSubview(cameraDetails)
-        cameraDetails.setDimensions(width: view.frame.width, height: 500)
-        contentView.addSubview(vStack)
-        vStack.anchor(top: panelImageView.bottomAnchor,
-                      bottom: contentView.bottomAnchor,
-                      leading: contentView.leadingAnchor,
-                      trailing: contentView.trailingAnchor,
-                      paddingTop: standardPadding,
-                      paddingBottom: standardPadding,
-                      paddingLeading: standardPadding,
-                      paddingTrailing: -standardPadding)
+        scrollView.addSubview(panelLocation)
+        panelLocation.anchor(top: panelImageView.bottomAnchor,
+                             leading: scrollView.leadingAnchor,
+                             trailing: scrollView.trailingAnchor)
     }
 }
 
 extension ContentViewController: UITextViewDelegate {
+    
+}
+
+extension ContentViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return panelImageView
+    }
+}
+
+extension ContentViewController: UICollectionViewDelegate, UICollectionViewDataSource, {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return networkManager.placesArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPath)
+        let places = networkManager.placesArray[indexPath.row]
+    }
+}
+
+extension ContentViewController: UICollectionViewDelegateFlowLayout {
     
 }
