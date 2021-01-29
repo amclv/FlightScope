@@ -6,16 +6,14 @@
 //
 
 import UIKit
+import MapKit
 
-class ContentViewController: UIViewController {
+class ContentViewController: UIViewController, MKMapViewDelegate {
     
     let destVC = DestinationViewController()
     let networkManager = NetworkManager()
     
     // MARK: - Properties -
-    let scrollViewSpacing: CGFloat = 8
-    let panelTitleHeight: CGFloat = 70
-    
     var destination: Destination? {
         didSet {
             updateUI()
@@ -26,8 +24,7 @@ class ContentViewController: UIViewController {
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.alwaysBounceVertical = false
-        view.frame.size.height = 2000
-        view.clipsToBounds = true
+//        view.clipsToBounds = true
         return view
     }()
     
@@ -35,6 +32,7 @@ class ContentViewController: UIViewController {
         let label = UILabel()
         label.textColor = .customColor(.black)
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
@@ -56,24 +54,36 @@ class ContentViewController: UIViewController {
         return camera
     }()
     
-    let placesCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        cv.backgroundColor = .purple
-        return cv
-    }()
-
+    var mapView = MKMapView()
+    
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .customColor(.green)
-//        delegates()
-//        getPlaces()
-        updateUI()
+        configUI()
+        scrollView.fitSizeOfContent()
+    }
+    
+    func configUI() {
         constraints()
+        delegates()
+        getPlaces()
+        configMapView()
+    }
+    
+    func configMapView() {
+        mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: UIScreen.screenWidth, height: 300))
+        mapView.mapType = MKMapType.standard
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+
+    }
+    
+    // MARK: - Helper Functions -
+    func delegates() {
+        cameraDetails.delegate = self
+        scrollView.delegate = self
+        mapView.delegate = self
     }
     
     func getPlaces() {
@@ -83,27 +93,45 @@ class ContentViewController: UIViewController {
         }
     }
     
-//    func delegates() {
-//        cameraDetails.delegate = self
-//        scrollView.delegate = self
-//    }
     
     func updateUI() {
-        guard let destination = destination else { return }
-
-        guard let urlString = destination.downloadLink,
+        guard let destination = destination,
+              let urlString = destination.downloadLink,
               let url = URL(string: urlString) else { return }
+            
         panelImageView.loadImageWithUrl(url)
-        panelLocation.text = "\(destination.locationCity ?? "Unknown City"), \(destination.locationCountry ?? "Unknown Country")"
+        panelLocation.text = "\(destination.locationName ?? "Unknown Name")"
         cameraDetails.text =
             """
-            Make: \(destination.exifMake ?? "No Camera")
-            Model: \(destination.exifModel ?? "No Camera")
-            ISO: \(destination.exifIso ?? "No ISO")
-            Focal Length: \(destination.exifFocalLength ?? "No Focal")
-            Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
-            Aperture: \(destination.exifAperture ?? "No Aperture")
+            Camera Details:
+
+                Make: \(destination.exifMake ?? "No Camera")
+                Model: \(destination.exifModel ?? "No Camera")
+                ISO: \(destination.exifIso ?? "No ISO")
+                Focal Length: \(destination.exifFocalLength ?? "No Focal")
+                Exposure Time: \(destination.exifExposureTime ?? "No Exposure")
+                Aperture: \(destination.exifAperture ?? "No Aperture")
             """
+    }
+    
+    func locationToMap() {
+        guard let lat = Double("\(destination?.locationLatitude ?? "")"),
+              let long = Double("\(destination?.locationLongitude ?? "")") else { return }
+        
+        let latitude: CLLocationDegrees = lat
+        let longitude: CLLocationDegrees = long
+        
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+        ]
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = "Place Name"
+        mapItem.openInMaps(launchOptions: options)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -111,7 +139,7 @@ class ContentViewController: UIViewController {
             scrollView.contentOffset.y = 0
         }
     }
-
+    
 }
 
 extension ContentViewController {
@@ -130,7 +158,26 @@ extension ContentViewController {
         scrollView.addSubview(panelLocation)
         panelLocation.anchor(top: panelImageView.bottomAnchor,
                              leading: scrollView.leadingAnchor,
-                             trailing: scrollView.trailingAnchor)
+                             trailing: scrollView.trailingAnchor,
+                             paddingTop: standardPadding,
+                             paddingLeading: standardPadding,
+                             paddingTrailing: -standardPadding)
+        
+        scrollView.addSubview(cameraDetails)
+        cameraDetails.anchor(top: panelLocation.bottomAnchor,
+                             leading: scrollView.leadingAnchor,
+                             trailing: scrollView.trailingAnchor,
+                             paddingTop: standardPadding,
+                             paddingLeading: standardPadding,
+                             paddingTrailing: -standardPadding)
+        cameraDetails.setDimensions(width: view.frame.width, height: 1000)
+        
+        scrollView.addSubview(mapView)
+        mapView.anchor(top: cameraDetails.bottomAnchor,
+                        leading: scrollView.leadingAnchor,
+                        trailing: scrollView.trailingAnchor,
+                        paddingLeading: standardPadding,
+                        paddingTrailing: -standardPadding)
     }
 }
 
@@ -142,19 +189,4 @@ extension ContentViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return panelImageView
     }
-}
-
-extension ContentViewController: UICollectionViewDelegate, UICollectionViewDataSource, {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return networkManager.placesArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPath)
-        let places = networkManager.placesArray[indexPath.row]
-    }
-}
-
-extension ContentViewController: UICollectionViewDelegateFlowLayout {
-    
 }

@@ -60,3 +60,10 @@ extension UIImage {
         return scaledImage!
     }
 }
+
+extension UIScrollView {
+    func fitSizeOfContent() {
+        let sumHeight = self.subviews.map({$0.frame.size.height}).reduce(0, {x, y in x + y})
+        self.contentSize = CGSize(width: self.frame.width, height: sumHeight)
+    }
+}
