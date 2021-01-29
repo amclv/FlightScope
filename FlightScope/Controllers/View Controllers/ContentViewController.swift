@@ -8,10 +8,9 @@
 import UIKit
 import MapKit
 
-class ContentViewController: UIViewController, MKMapViewDelegate {
+class ContentViewController: UIViewController {
     
     let destVC = DestinationViewController()
-    let networkManager = NetworkManager()
     
     // MARK: - Properties -
     var destination: Destination? {
@@ -21,12 +20,30 @@ class ContentViewController: UIViewController, MKMapViewDelegate {
     }
     
     // MARK: - Computer Properties -
-    lazy var scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.alwaysBounceVertical = false
-//        view.clipsToBounds = true
-        return view
+    let redView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .red
+        return v
     }()
+    
+    let greenView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .green
+        return v
+    }()
+    
+    let blueView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .blue
+        return v
+    }()
+    
+    let scrollView: UIScrollView = {
+        let v = UIScrollView()
+        return v
+    }()
+    
+    let contentView = UIView()
     
     lazy var panelLocation: UILabel = {
         let label = UILabel()
@@ -41,7 +58,6 @@ class ContentViewController: UIViewController, MKMapViewDelegate {
         let imageView = ImageLoader()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.setDimensions(width: UIScreen.screenWidth, height: UIScreen.screenWidth / 1.50)
         return imageView
     }()
     
@@ -54,29 +70,41 @@ class ContentViewController: UIViewController, MKMapViewDelegate {
         return camera
     }()
     
-    var mapView = MKMapView()
+    lazy var mapView = MKMapView()
+    
+    let placesButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Nearby Places", for: .normal)
+        button.addTarget(self, action: #selector(placesButtonAction), for: .touchUpInside)
+        return button
+    }()
     
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .customColor(.green)
         configUI()
-        scrollView.fitSizeOfContent()
+        constraints()
+        delegates()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let destination = destination,
+              let lat = Double("\(destination.locationLatitude ?? "")"),
+              let long = Double("\(destination.locationLongitude ?? "")"),
+              let name = destination.locationName else { return }
+        
+        locationToMap(locationName: name, location: CLLocationCoordinate2D(latitude: lat, longitude: long))
     }
     
     func configUI() {
-        constraints()
-        delegates()
-        getPlaces()
         configMapView()
     }
     
     func configMapView() {
-        mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: UIScreen.screenWidth, height: 300))
         mapView.mapType = MKMapType.standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
-
+        mapView.layer.cornerRadius = 10
     }
     
     // MARK: - Helper Functions -
@@ -86,19 +114,11 @@ class ContentViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
     }
     
-    func getPlaces() {
-        guard let destinationCity = destination?.locationCity else { return }
-        networkManager.fetchData(cityName: "\(destinationCity)") {
-            return
-        }
-    }
-    
-    
     func updateUI() {
         guard let destination = destination,
               let urlString = destination.downloadLink,
               let url = URL(string: urlString) else { return }
-            
+        
         panelImageView.loadImageWithUrl(url)
         panelLocation.text = "\(destination.locationName ?? "Unknown Name")"
         cameraDetails.text =
@@ -114,70 +134,84 @@ class ContentViewController: UIViewController, MKMapViewDelegate {
             """
     }
     
-    func locationToMap() {
-        guard let lat = Double("\(destination?.locationLatitude ?? "")"),
-              let long = Double("\(destination?.locationLongitude ?? "")") else { return }
+    func locationToMap(locationName: String, location: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = locationName
+        annotation.subtitle = "SUBTITLE"
+        let coordinateRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 800, longitudinalMeters: 800)
+        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.addAnnotation(annotation)
         
-        let latitude: CLLocationDegrees = lat
-        let longitude: CLLocationDegrees = long
-        
-        let regionDistance:CLLocationDistance = 10000
-        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
-        let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
-        let options = [
-            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
-            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-        ]
-        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-        let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = "Place Name"
-        mapItem.openInMaps(launchOptions: options)
+        //            let regionDistance: CLLocationDistance = 10000
+        //            let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        //            let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+        //            let options = [
+        //                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+        //                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+        //            ]
+        //            let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        //            var mapItem = MKMapItem(placemark: placemark)
+        //            mapItem.name = "\(destination.locationName)"
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            scrollView.contentOffset.y = 0
-        }
+    @objc func placesButtonAction() {
+        print("This is a test to me!")
     }
     
 }
 
 extension ContentViewController {
-    private func constraints() {
-        view.addSubview(scrollView)
+    func constraints() {
+        self.view.addSubview(scrollView)
         scrollView.anchor(top: view.topAnchor,
                           bottom: view.bottomAnchor,
                           leading: view.leadingAnchor,
                           trailing: view.trailingAnchor)
         
+        // add three views to the scroll view
         scrollView.addSubview(panelImageView)
         panelImageView.anchor(top: scrollView.topAnchor,
                               leading: scrollView.leadingAnchor,
-                              trailing: scrollView.trailingAnchor)
+                              trailing: scrollView.trailingAnchor,
+                              paddingTop: 0)
+        panelImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        panelImageView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeight / 2).isActive = true
         
         scrollView.addSubview(panelLocation)
         panelLocation.anchor(top: panelImageView.bottomAnchor,
                              leading: scrollView.leadingAnchor,
-                             trailing: scrollView.trailingAnchor,
-                             paddingTop: standardPadding,
-                             paddingLeading: standardPadding,
-                             paddingTrailing: -standardPadding)
+                             trailing: scrollView.trailingAnchor)
         
         scrollView.addSubview(cameraDetails)
         cameraDetails.anchor(top: panelLocation.bottomAnchor,
                              leading: scrollView.leadingAnchor,
-                             trailing: scrollView.trailingAnchor,
-                             paddingTop: standardPadding,
-                             paddingLeading: standardPadding,
-                             paddingTrailing: -standardPadding)
-        cameraDetails.setDimensions(width: view.frame.width, height: 1000)
+                             trailing: scrollView.trailingAnchor)
+        cameraDetails.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        cameraDetails.heightAnchor.constraint(equalToConstant: UIScreen.screenHeight / 2).isActive = true
         
         scrollView.addSubview(mapView)
         mapView.anchor(top: cameraDetails.bottomAnchor,
+                       leading: scrollView.leadingAnchor,
+                       trailing: scrollView.trailingAnchor)
+        mapView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        mapView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeight / 2).isActive = true
+        
+        scrollView.addSubview(greenView)
+        greenView.anchor(top: mapView.bottomAnchor,
+                         leading: scrollView.leadingAnchor,
+                         trailing: scrollView.trailingAnchor,
+                         paddingTop: 20.0)
+        greenView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        greenView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        
+        scrollView.addSubview(blueView)
+        blueView.anchor(top: greenView.bottomAnchor,
+                        bottom: scrollView.bottomAnchor,
                         leading: scrollView.leadingAnchor,
-                        trailing: scrollView.trailingAnchor,
-                        paddingLeading: standardPadding,
-                        paddingTrailing: -standardPadding)
+                        trailing: scrollView.trailingAnchor)
+        blueView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        blueView.heightAnchor.constraint(equalToConstant: 300).isActive = true
     }
 }
 
@@ -189,4 +223,8 @@ extension ContentViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return panelImageView
     }
+}
+
+extension ContentViewController: MKMapViewDelegate {
+    
 }

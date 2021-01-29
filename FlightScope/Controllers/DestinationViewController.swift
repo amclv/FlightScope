@@ -112,7 +112,8 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
         guard let urlString = destination.downloadLink,
               let url = URL(string: urlString) else { return UICollectionViewCell() }
         
-        cell.locationName.text = destination.locationCountry
+        cell.locationCity.text = destination.locationCity
+        cell.locationCountry.text = destination.locationCountry
         cell.locationImageView.loadImageWithUrl(url)
         cell.layer.cornerRadius = cellCornerRadius
         return cell

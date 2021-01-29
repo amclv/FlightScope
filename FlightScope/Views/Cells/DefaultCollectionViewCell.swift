@@ -11,7 +11,15 @@ class DefaultCollectionViewCell: UICollectionViewCell {
     
     static var identifier: String = "DefaultCollectionViewCell"
     
-    let locationName: UILabel = {
+    let locationCity: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 30.0, weight: .semibold)
+        label.numberOfLines = 0
+        label.textColor = .customColor(.white)
+        return label
+    }()
+    
+    let locationCountry: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 30.0, weight: .semibold)
         label.numberOfLines = 0
@@ -26,6 +34,8 @@ class DefaultCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    let vStack = CustomStackView(style: .vertical, distribution: .fill, alignment: .fill)
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -46,10 +56,28 @@ extension DefaultCollectionViewCell {
         contentView.addSubview(locationImageView)
         locationImageView.addConstraintsToFillView(contentView)
         
-        contentView.addSubview(locationName)
-        locationName.anchor(bottom: contentView.bottomAnchor,
-                            leading: contentView.leadingAnchor,
-                            paddingBottom: standardPadding,
-                            paddingLeading: standardPadding)
+        
+        vStack.addArrangedSubview(locationCity)
+        vStack.addArrangedSubview(locationCountry)
+        contentView.addSubview(vStack)
+        vStack.anchor(bottom: contentView.bottomAnchor,
+                      leading: contentView.leadingAnchor,
+                      trailing: contentView.trailingAnchor,
+                      paddingBottom: standardPadding,
+                      paddingLeading: standardPadding,
+                      paddingTrailing: -standardPadding)
+        
+        
+        //        contentView.addSubview(locationCity)
+        //        locationCity.anchor(bottom: locationCountry.topAnchor,
+        //                            leading: contentView.leadingAnchor,
+        //                            paddingBottom: standardPadding,
+        //                            paddingLeading: standardPadding)
+        //
+        //        contentView.addSubview(locationCountry)
+        //        locationCountry.anchor(bottom: contentView.bottomAnchor,
+        //                               leading: contentView.leadingAnchor,
+        //                               paddingBottom: standardPadding,
+        //                               paddingLeading: standardPadding)
     }
 }
