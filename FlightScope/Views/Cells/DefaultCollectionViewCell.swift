@@ -13,7 +13,7 @@ class DefaultCollectionViewCell: UICollectionViewCell {
     
     let locationCity: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 30.0, weight: .semibold)
+        label.font = .systemFont(ofSize: 30.0, weight: .bold)
         label.numberOfLines = 0
         label.textColor = .customColor(.white)
         return label
@@ -21,9 +21,9 @@ class DefaultCollectionViewCell: UICollectionViewCell {
     
     let locationCountry: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 30.0, weight: .semibold)
+        label.font = .systemFont(ofSize: 26.0, weight: .semibold)
         label.numberOfLines = 0
-        label.textColor = .customColor(.white)
+        label.textColor = .customColor(.blue)
         return label
     }()
     

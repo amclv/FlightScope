@@ -11,9 +11,7 @@
 		1A32289A25C1C9F600DC6F0F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32289925C1C9F600DC6F0F /* Extensions.swift */; };
 		1A3228B625C1EF9E00DC6F0F /* UIStackView+Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3228B525C1EF9E00DC6F0F /* UIStackView+Styles.swift */; };
 		1A3228CC25C2624000DC6F0F /* FirestoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3228CB25C2624000DC6F0F /* FirestoreController.swift */; };
-		1A36646C25C3B33D0079BD3F /* FloatPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36646B25C3B33D0079BD3F /* FloatPanelController.swift */; };
 		1A36647025C3C6BC0079BD3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A36646F25C3C6BC0079BD3F /* GoogleService-Info.plist */; };
-		1A43A1E725C3F54C00C798C1 /* PlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43A1E625C3F54C00C798C1 /* PlacesCollectionViewCell.swift */; };
 		1A545D7C25C349D20094EBD5 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A545D7B25C349D20094EBD5 /* ContentViewController.swift */; };
 		1A73C73025C2B6630081C3EB /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A73C72F25C2B6630081C3EB /* ImageLoader.swift */; };
 		1AD3BBB825C1B9A700A36B49 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD3BBB725C1B9A700A36B49 /* HomeViewController.swift */; };
@@ -35,9 +33,7 @@
 		1A32289925C1C9F600DC6F0F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1A3228B525C1EF9E00DC6F0F /* UIStackView+Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Styles.swift"; sourceTree = "<group>"; };
 		1A3228CB25C2624000DC6F0F /* FirestoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreController.swift; sourceTree = "<group>"; };
-		1A36646B25C3B33D0079BD3F /* FloatPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatPanelController.swift; sourceTree = "<group>"; };
 		1A36646F25C3C6BC0079BD3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		1A43A1E625C3F54C00C798C1 /* PlacesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A545D7B25C349D20094EBD5 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1A73C72F25C2B6630081C3EB /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		1AD3BBB725C1B9A700A36B49 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -91,14 +87,6 @@
 				1A3228CB25C2624000DC6F0F /* FirestoreController.swift */,
 			);
 			path = Networking;
-			sourceTree = "<group>";
-		};
-		1A36646A25C3B31F0079BD3F /* Model Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				1A36646B25C3B33D0079BD3F /* FloatPanelController.swift */,
-			);
-			path = "Model Controllers";
 			sourceTree = "<group>";
 		};
 		1AD6D83825BFF70F007D1D70 = {
@@ -164,7 +152,6 @@
 		1AF2D21125C0035C00F127EF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1A36646A25C3B31F0079BD3F /* Model Controllers */,
 				1AF2D21225C0036200F127EF /* View Controllers */,
 			);
 			path = Controllers;
@@ -196,7 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				1AF2D21D25C00E4500F127EF /* DefaultCollectionViewCell.swift */,
-				1A43A1E625C3F54C00C798C1 /* PlacesCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -334,7 +320,6 @@
 				1AF2D21625C003C700F127EF /* AutoLayoutEngine.swift in Sources */,
 				1A3228CC25C2624000DC6F0F /* FirestoreController.swift in Sources */,
 				1AD6D84725BFF70F007D1D70 /* SceneDelegate.swift in Sources */,
-				1A36646C25C3B33D0079BD3F /* FloatPanelController.swift in Sources */,
 				1AF2D21E25C00E4500F127EF /* DefaultCollectionViewCell.swift in Sources */,
 				1A545D7C25C349D20094EBD5 /* ContentViewController.swift in Sources */,
 				1A32289725C1C17900DC6F0F /* Globals.swift in Sources */,
@@ -343,7 +328,6 @@
 				1AF2D21A25C004C500F127EF /* DestinationViewController.swift in Sources */,
 				1A3228B625C1EF9E00DC6F0F /* UIStackView+Styles.swift in Sources */,
 				1A73C73025C2B6630081C3EB /* ImageLoader.swift in Sources */,
-				1A43A1E725C3F54C00C798C1 /* PlacesCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

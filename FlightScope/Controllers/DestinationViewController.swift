@@ -78,6 +78,9 @@ class DestinationViewController: UIViewController {
     }
     
     // Pushes my data and allows it to appear in the FloatingPanel
+    /*
+     This was my inital issue that I was having with passing data.
+     */
     func setData(dataSource: Destination) {
         guard isViewLoaded, let contentView = panel.contentViewController as? ContentViewController else { return }
         contentView.destination = dataSource
@@ -94,7 +97,6 @@ extension DestinationViewController {
                                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                     leading: view.leadingAnchor,
                                     trailing: view.trailingAnchor,
-                                    paddingTop: standardPadding,
                                     paddingBottom: standardSpacing + 50)
     }
 }
@@ -130,7 +132,7 @@ extension DestinationViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - 50, height: collectionView.frame.height)
+        return CGSize(width: collectionView.frame.width - 100, height: collectionView.frame.height)
     }
 }
 
